@@ -8,10 +8,13 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
 import com.google.common.base.Function;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class FluentWaitExample {
 
@@ -19,8 +22,13 @@ public class FluentWaitExample {
 	
 	public static void main(String[] args) {
 		
-		System.setProperty("webdriver.chrome.driver","C:\\SELENIUM\\browser-driver\\chromedriver_win32\\chromedriver.exe");
-		driver = new ChromeDriver();
+		//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\Driver\\chromedriver.exe");
+		//driver = new ChromeDriver();
+		
+		WebDriverManager.chromedriver().setup();
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--disable-notifications");
+		driver = new ChromeDriver(options);
 		
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
@@ -46,6 +54,7 @@ public class FluentWaitExample {
 		
 		// Waiting 30 seconds for an element to be present on the page, checking
 		// for its presence once every 15 seconds.
+		/*Fluent Wait*/
 		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
 				.withTimeout(Duration.ofSeconds(30))
 				.pollingEvery(Duration.ofMillis(15))

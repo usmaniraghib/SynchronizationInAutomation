@@ -8,8 +8,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class ExplicitlyWaitExample {
 	public static WebDriver driver;
@@ -20,8 +23,13 @@ public class ExplicitlyWaitExample {
 		String eYear = expectedDate.split("-")[2];
 		System.out.println(eDate+"-"+eMonth+"-"+eYear);
 		
-		System.setProperty("webdriver.chrome.driver","C:\\SELENIUM\\browser-driver\\chromedriver_win32\\chromedriver.exe");
-		driver = new ChromeDriver();
+		WebDriverManager.chromedriver().setup();
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--disable-notifications");
+		driver = new ChromeDriver(options);
+		
+		//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\Driver\\chromedriver.exe");
+		//driver = new ChromeDriver();
 		
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
@@ -31,11 +39,12 @@ public class ExplicitlyWaitExample {
 		driver.get("https://www.spicejet.com/");		
                 
         /*Dynamic Drop Down - Select Source and Destination*/
-        driver.findElement(By.xpath("//input[@id='ctl00_mainContent_ddl_originStation1_CTXT']")).click();
+        driver.findElement(By.xpath("//div[@class='css-1dbjc4n r-1awozwy r-18u37iz r-1wtj0ep']//input[@autocapitalize='sentences' and @value='']")).click();
         driver.findElement(By.xpath("//a[@value='GAY']")).click();
         driver.findElement(By.xpath("//a[@value='BLR']")).click();		
 	    
 	    /*Date Selection - Departure Date Only*/
+        /*Explicitly Wait*/
         Duration duration = Duration.ofSeconds(3000);
         WebDriverWait explicitlyWait = new WebDriverWait(driver, duration);
         WebElement fromDateButton = explicitlyWait.until(ExpectedConditions.elementToBeClickable(By.id("ctl00_mainContent_view_date1")));

@@ -4,6 +4,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class ImplicitlyWaitExample {
 
@@ -16,12 +19,18 @@ public class ImplicitlyWaitExample {
 		String eYear = expectedDate.split("-")[2];
 		System.out.println(eDate+"-"+eMonth+"-"+eYear);
 		
-		System.setProperty("webdriver.chrome.driver","C:\\SELENIUM\\browser-driver\\chromedriver_win32\\chromedriver.exe");
-		driver = new ChromeDriver();
+		WebDriverManager.chromedriver().setup();
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--disable-notifications");
+		driver = new ChromeDriver(options);
+		
+		//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\Driver\\chromedriver.exe");
+		//driver = new ChromeDriver();
 		
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		
+		/*Implicitly Wait*/
 		driver.manage().timeouts().pageLoadTimeout(3, TimeUnit.MINUTES);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
