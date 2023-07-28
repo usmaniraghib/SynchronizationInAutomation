@@ -2,7 +2,6 @@ package com.raghib.selenium.explicitly;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -34,7 +33,8 @@ public class ExplicitlyWaitExample {
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		
-		driver.manage().timeouts().pageLoadTimeout(3, TimeUnit.MINUTES);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofMinutes(3));
 		
 		driver.get("https://www.spicejet.com/");		
                 
