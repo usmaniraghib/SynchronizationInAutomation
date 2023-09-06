@@ -3,39 +3,32 @@ package com.raghib.selenium.implicitly;
 import java.time.Duration;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import com.base.BaseClass;
+import com.raghib.selenium.explicitly.WaitClass;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-public class ImplicitlyWaitExample {
+public class ImplicitlyWaitExample extends BaseClass {
 
 	public static WebDriver driver;
+	public static String browserName = "chrome";
+	public static String browserVersion = "116";
+	
+	public static String url = "https://www.spicejet.com/";
 	
 	public static void main(String[] args) {
-		String expectedDate = "12-May-2021";
-		String eDate = expectedDate.split("-")[0];
-		String eMonth = expectedDate.split("-")[1];
-		String eYear = expectedDate.split("-")[2];
-		System.out.println(eDate+"-"+eMonth+"-"+eYear);
+		WaitClass wc = new WaitClass();
 		
-		WebDriverManager.chromedriver().setup();
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--disable-notifications");
-		driver = new ChromeDriver(options);
-		
-		//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\Driver\\chromedriver.exe");
-		//driver = new ChromeDriver();
-		
+		// Chrome Browser
+		driver = BaseClass.getDriver(browserName, browserVersion);
+
+		/* Implicitly Wait */
+		wc.pageLoadTimeout(driver, Duration.ofSeconds(100));
+		wc.implicitWait(driver, Duration.ofSeconds(30));
+
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
+
+		driver.get(url);
 		
-		/*Implicitly Wait*/
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(100));
-		
-		driver.get("https://www.spicejet.com/");
-		
-		driver.quit();
+		BaseClass.quitDriver();
 	}
 }
